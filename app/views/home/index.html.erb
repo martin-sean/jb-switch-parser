@@ -1,1 +1,14 @@
-<% provide(:title, "Games") %>git
+<% provide(:title, "Games") %>
+
+<div class="container">
+  <% @games.each do |game| %>
+    <div class="row">
+      <div class="col-sm-6">
+        <%= game.name %>
+      </div>
+      <div class="col-sm-6">
+        <%= game.prices.first %>
+      </div>
+    </div>
+  <% end %>
+</div>
