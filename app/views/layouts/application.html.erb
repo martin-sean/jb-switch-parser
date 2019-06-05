@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title><%= full_title(yield(:title)) %></title>
+    <%= render 'layouts/head_tags' %>
+  </head>
+
+  <%# Display flash messages %>
+  <%= render 'layouts/flash_messages', flash: flash %>
+
+  <body>
+    <%= yield %>
+  </body>
+
+</html>
