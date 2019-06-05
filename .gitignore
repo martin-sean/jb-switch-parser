@@ -31,4 +31,4 @@
 /config/master.key
 
 # Ignore Jetbrains config files
-.idea
+.idea/
