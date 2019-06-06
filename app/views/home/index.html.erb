@@ -1,5 +1,7 @@
 <% provide(:title, "Games") %>
 
+<%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
+
 <div class="container">
   <% @games.each do |game| %>
     <div class="row">
@@ -7,7 +9,7 @@
         <%= game.name %>
       </div>
       <div class="col-sm-6">
-        <%= game.prices.first %>
+        $ <%= game.prices.first.amount %>
       </div>
     </div>
   <% end %>

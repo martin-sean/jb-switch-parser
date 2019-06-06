@@ -1,4 +1,4 @@
 # Represents a game parsed from url
 class Game < ApplicationRecord
-  has_many :prices
+  has_many :prices, dependent: :destroy
 end
