@@ -1,7 +1,7 @@
 module HomeHelper
 
   def percentage(val1, val2)
-    two_decimal(100 - (val1 / val2) * 100)
+    format_decimal(100 - (val1 / val2) * 100, 0)
   end
 
   def jb_link(link)
@@ -18,7 +18,7 @@ module HomeHelper
     ((1.hour - (Time.now - @refresh.created_at)) / 60).to_i % 60 + 1
   end
 
-  def two_decimal(num)
-    format('%.2f', num)
+  def format_decimal(num, places)
+    format("%.#{places}f", num)
   end
 end
