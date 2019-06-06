@@ -1,24 +1,6 @@
-# README
+## JB Switch Parser
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Primitive jbhifi.com.au that tracks Nintendo Switch game prices
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Avaliable at: https://jb-switch-parser.herokuapp.com/
+* Scraping is triggered manually at a maximum rate of once an hour.
