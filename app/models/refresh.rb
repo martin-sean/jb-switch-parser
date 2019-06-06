@@ -1,0 +1,2 @@
+class Refresh < ApplicationRecord
+end

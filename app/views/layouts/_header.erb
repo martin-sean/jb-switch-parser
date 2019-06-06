@@ -1,0 +1,20 @@
+<header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+
+      <div class="navbar-header">
+        <strong><%= link_to 'JB Switch Game Parser', root_path, class: 'navbar-brand' %></strong>
+      </div>
+
+      <div class="nav navbar-btn navbar-right">
+        <% if allow_refresh?%>
+          <%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
+        <% else %>
+          <i><%= time_to_refresh %> min</i>
+          <%= link_to 'Refresh', '/', disabled: true, class:'btn btn-primary' %>
+        <% end %>
+      </div>
+
+    </div>
+  </nav>
+</header>

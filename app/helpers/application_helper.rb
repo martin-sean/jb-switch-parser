@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+
   # Format Page Title
   def full_title(page_title)
     title = 'JB Switch History'

@@ -2,9 +2,6 @@
 
 <div class="container">
   <div class="row">
-    <%= link_to 'Refresh', refresh_path, class:'btn btn-primary full-width' %>
-  </div>
-  <div class="row">
     <table class="table">
       <tr>
         <th scope="col">Name</th>
@@ -20,12 +17,12 @@
           <% current = game.prices.last %>
           <% max = game.prices.maximum('amount') %>
           <% min = game.prices.minimum('amount') %>
-          <td><%= link_to game.name, get_jb_link(game.link) %></td>
-          <td>$<%= current.amount %></td>
+          <td><%= link_to game.name, jb_link(game.link) %></td>
+          <td>$<%= two_decimal(current.amount) %></td>
           <td><%= percentage(current.amount, max) %>%</td>
-          <td>$<%= max%></td>
-          <td>$<%= min%></td>
-          <td><i><%= distance_of_time_in_words Time.new.inspect, current.created_at %> ago</i></td>
+          <td>$<%= two_decimal(max) %></td>
+          <td>$<%= two_decimal(min) %></td>
+          <td><i><%= distance_of_time_in_words Time.now, current.created_at %> ago</i></td>
           <td><%= game.prices.size %></td>
         </tr>
       <% end %>

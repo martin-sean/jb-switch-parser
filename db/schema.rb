@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_074014) do
+ActiveRecord::Schema.define(version: 2019_06_06_083136) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
@@ -25,6 +25,11 @@ ActiveRecord::Schema.define(version: 2019_06_06_074014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_prices_on_game_id"
+  end
+
+  create_table "refreshes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
