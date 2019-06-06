@@ -41,19 +41,20 @@ class HomeController < ApplicationController
       doc = Nokogiri::HTML(game.to_s)
       id = doc.at_xpath('//div[@data-productid]')['data-productid']
       name = doc.at_xpath('//h4[@title]').text
+      link = doc.at_xpath('//a[@class="link"]')['href']
       price = doc.at_xpath('//span[@class="amount regular"]').text.delete('^[0-9.]')
-      save_game(id, name, price)
+      save_game(id, name, link, price.to_f)
     end
   end
 
   # Save game/price to DB
-  def save_game(id, name, price)
+  def save_game(id, name, link, price)
     return if id.nil? || name.nil? || price.nil?
 
     @game = Game.find_by(id: id)
     if @game.nil?
       # Game does not exist, create a new game and price
-      @new = Game.new(id: id, name: name)
+      @new = Game.new(id: id, name: name, link: link)
       @new.save
       @new.prices.create(amount: price)
     else

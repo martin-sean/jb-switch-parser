@@ -1,26 +1,34 @@
 <% provide(:title, "Games") %>
 
-<%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
-
 <div class="container">
-  <table class="table">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Current Price</th>
-      <th scope="col">Discount</th>
-      <th scope="col">Highest Price</th>
-    </tr>
-
-    <% @games.each do |game| %>
+  <div class="row">
+    <%= link_to 'Refresh', refresh_path, class:'btn btn-primary full-width' %>
+  </div>
+  <div class="row">
+    <table class="table">
       <tr>
-        <% current = game.prices.last.amount %>
-        <% max = game.prices.maximum('amount') %>
-
-        <td><%= game.name %></td>
-        <td>$<%= current %></td>
-        <td><%= percentage(current, max) %>%</td>
-        <td>$<%= max%></td>
+        <th scope="col">Name</th>
+        <th scope="col">Current Price</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Highest Price</th>
+        <th scope="col">Lowest Price</th>
+        <th scope="col">Last Price Change</th>
+        <th scope="col"># of Changes</th>
       </tr>
-    <% end %>
-  </table>
+      <% @games.each do |game| %>
+        <tr>
+          <% current = game.prices.last %>
+          <% max = game.prices.maximum('amount') %>
+          <% min = game.prices.minimum('amount') %>
+          <td><%= link_to game.name, get_jb_link(game.link) %></td>
+          <td>$<%= current.amount %></td>
+          <td><%= percentage(current.amount, max) %>%</td>
+          <td>$<%= max%></td>
+          <td>$<%= min%></td>
+          <td><i><%= distance_of_time_in_words Time.new.inspect, current.created_at %> ago</i></td>
+          <td><%= game.prices.size %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
 </div>
