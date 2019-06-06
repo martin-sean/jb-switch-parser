@@ -58,7 +58,7 @@ class HomeController < ApplicationController
       @new.prices.create(amount: price)
     else
       # Add a new price
-      last = @game.prices.last.amount
+      @game.prices.last.amount
       @game.prices.create(amount: price) unless @game.prices.last.amount == price
     end
   end
