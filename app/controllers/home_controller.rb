@@ -21,7 +21,7 @@ class HomeController < ApplicationController
     doc = Nokogiri::HTML(open(base_url))
     last = last_page(doc)
     # For each page
-    (1..1).each do |i|
+    (1..last).each do |i|
       url = base_url + param + i.to_s
       doc = Nokogiri::HTML(open(url))
       games = doc.xpath(selector)
@@ -41,7 +41,7 @@ class HomeController < ApplicationController
       doc = Nokogiri::HTML(game.to_s)
       id = doc.at_xpath('//div[@data-productid]')['data-productid']
       name = doc.at_xpath('//h4[@title]').text
-      price = doc.at_xpath('//span[@class="amount regular"]').text.delete('^0-9')
+      price = doc.at_xpath('//span[@class="amount regular"]').text.delete('^[0-9.]')
       save_game(id, name, price)
     end
   end
@@ -58,7 +58,8 @@ class HomeController < ApplicationController
       @new.prices.create(amount: price)
     else
       # Add a new price
-      @game.prices.create(amount: price)
+      last = @game.prices.last.amount
+      @game.prices.create(amount: price) unless @game.prices.last.amount == price
     end
   end
 

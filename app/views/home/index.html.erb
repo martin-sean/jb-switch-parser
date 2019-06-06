@@ -3,14 +3,24 @@
 <%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
 
 <div class="container">
-  <% @games.each do |game| %>
-    <div class="row">
-      <div class="col-sm-6">
-        <%= game.name %>
-      </div>
-      <div class="col-sm-6">
-        $ <%= game.prices.first.amount %>
-      </div>
-    </div>
-  <% end %>
+  <table class="table">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Current Price</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Highest Price</th>
+    </tr>
+
+    <% @games.each do |game| %>
+      <tr>
+        <% current = game.prices.last.amount %>
+        <% max = game.prices.maximum('amount') %>
+
+        <td><%= game.name %></td>
+        <td>$<%= current %></td>
+        <td><%= percentage(current, max) %>%</td>
+        <td>$<%= max%></td>
+      </tr>
+    <% end %>
+  </table>
 </div>
