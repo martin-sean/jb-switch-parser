@@ -1,39 +1,15 @@
 <% provide(:title, "Games") %>
 
 <div class="container">
+  <%# Render only new games to table. TODO: look for a faster way to do this %>
   <div class="row">
-
-    <table class="table" data-toggle="table">
-      <thead>
-        <tr>
-          <th data-sortable="true" scope="col">Name</th>
-          <th data-sortable="true" scope="col">Current Price ($)</th>
-          <th data-sortable="true" scope="col">Discount</th>
-          <th data-sortable="true" scope="col">Highest Price ($)</th>
-          <th data-sortable="true" scope="col">Lowest Price ($)</th>
-          <th data-sortable="true" scope="col">Last Price Change</th>
-          <th data-sortable="true" scope="col"># of Changes</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @games.each do |game| %>
-          <tr>
-            <% current = game.prices.last %>
-            <% max = game.prices.maximum('amount') %>
-            <% min = game.prices.minimum('amount') %>
-            <% discount = percentage(current.amount, max) %>
-            <td><%= link_to game.name, jb_link(game.link) %></td>
-            <td><%= format_decimal(current.amount, 2) %></td>
-            <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
-            <td><%= format_decimal(max, 2) %></td>
-            <td><%= format_decimal(min, 2) %></td>
-            <td><i><%= time_ago_in_words current.created_at %> ago</i></td>
-            <td><%= game.prices.size %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-
+    <h3>Newly added in the last 7 days</h3>
   </div>
+  <%= render 'home/game_table', games: @games.reject{|game| !new_game?(game)} %>
+
+  <%# Render games > 7 days old to the table%>
+  <div class="row">
+    <h3>Games</h3>
+  </div>
+  <%= render 'home/game_table', games: @games.reject(&method(:new_game?)) %>
 </div>

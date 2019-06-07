@@ -21,4 +21,8 @@ module HomeHelper
   def format_decimal(num, places)
     format("%.#{places}f", num)
   end
+
+  def new_game?(game)
+    Time.now - game.created_at < 7.days
+  end
 end
