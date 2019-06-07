@@ -2,31 +2,38 @@
 
 <div class="container">
   <div class="row">
-    <table class="table">
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Current Price</th>
-        <th scope="col">Discount</th>
-        <th scope="col">Highest Price</th>
-        <th scope="col">Lowest Price</th>
-        <th scope="col">Last Price Change</th>
-        <th scope="col"># of Changes</th>
-      </tr>
-      <% @games.each do |game| %>
+
+    <table class="table" data-toggle="table">
+      <thead>
         <tr>
-          <% current = game.prices.last %>
-          <% max = game.prices.maximum('amount') %>
-          <% min = game.prices.minimum('amount') %>
-          <% discount = percentage(current.amount, max) %>
-          <td><%= link_to game.name, jb_link(game.link) %></td>
-          <td>$<%= format_decimal(current.amount, 2) %></td>
-          <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
-          <td>$<%= format_decimal(max, 2) %></td>
-          <td>$<%= format_decimal(min, 2) %></td>
-          <td><i><%= distance_of_time_in_words Time.now, current.created_at %> ago</i></td>
-          <td><%= game.prices.size %></td>
+          <th data-sortable="true" scope="col">Name</th>
+          <th data-sortable="true" scope="col">Current Price ($)</th>
+          <th data-sortable="true" scope="col">Discount</th>
+          <th data-sortable="true" scope="col">Highest Price ($)</th>
+          <th data-sortable="true" scope="col">Lowest Price ($)</th>
+          <th data-sortable="true" scope="col">Last Price Change</th>
+          <th data-sortable="true" scope="col"># of Changes</th>
         </tr>
-      <% end %>
+      </thead>
+
+      <tbody>
+        <% @games.each do |game| %>
+          <tr>
+            <% current = game.prices.last %>
+            <% max = game.prices.maximum('amount') %>
+            <% min = game.prices.minimum('amount') %>
+            <% discount = percentage(current.amount, max) %>
+            <td><%= link_to game.name, jb_link(game.link) %></td>
+            <td><%= format_decimal(current.amount, 2) %></td>
+            <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
+            <td><%= format_decimal(max, 2) %></td>
+            <td><%= format_decimal(min, 2) %></td>
+            <td><i><%= time_ago_in_words current.created_at %> ago</i></td>
+            <td><%= game.prices.size %></td>
+          </tr>
+        <% end %>
+      </tbody>
     </table>
+
   </div>
 </div>

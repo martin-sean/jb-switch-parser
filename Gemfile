@@ -43,6 +43,7 @@ gem 'nokogiri'
 
 # Bootstrap
 gem 'bootstrap-sass', '>= 3.4.1'
+gem "bootstrap-table-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and
