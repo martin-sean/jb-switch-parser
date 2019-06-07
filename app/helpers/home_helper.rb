@@ -5,7 +5,7 @@ module HomeHelper
   end
 
   def jb_link(link)
-    'https://www.jbhifi.com.au/' + link
+    'https://www.jbhifi.com.au' + link
   end
 
   # Limit the number of refreshes to 1 per hour
