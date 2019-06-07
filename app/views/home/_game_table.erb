@@ -1,4 +1,4 @@
-<div class="row margin-bottom">
+<div class="row">
   <table class="table" data-toggle="table">
     <thead>
     <tr>
@@ -13,21 +13,21 @@
     </thead>
 
     <tbody>
-    <% games.each do |game| %>
-      <tr>
+      <% games.each do |game| %>
         <% current = game.prices.last %>
         <% max = game.prices.maximum('amount') %>
         <% min = game.prices.minimum('amount') %>
         <% discount = percentage(current.amount, max) %>
-        <td><%= link_to game.name, jb_link(game.link) %></td>
-        <td><%= format_decimal(current.amount, 2) %></td>
-        <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
-        <td><%= format_decimal(max, 2) %></td>
-        <td><%= format_decimal(min, 2) %></td>
-        <td><i><%= time_ago_in_words current.created_at %> ago</i></td>
-        <td><%= game.prices.size %></td>
-      </tr>
-    <% end %>
+        <tr <%= 'class=success' unless  discount.to_i == 0 %> >
+          <td><%= link_to game.name, jb_link(game.link) %></td>
+          <td><%= format_decimal(current.amount, 2) %></td>
+          <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
+          <td><%= format_decimal(max, 2) %></td>
+          <td><%= format_decimal(min, 2) %></td>
+          <td><i><%= time_ago_in_words current.created_at %> ago</i></td>
+          <td><%= game.prices.size %></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
