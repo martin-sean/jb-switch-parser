@@ -7,10 +7,10 @@
       </div>
 
       <div class="nav navbar-btn navbar-right">
+        <small class="refresh-message"><i>Refreshed <%= time_since_refresh %> ago</i></small>
         <% if allow_refresh?%>
           <%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
         <% else %>
-          <i><%= time_to_refresh %> min</i>
           <%= link_to 'Refresh', refresh_path, disabled: true, class:'btn btn-primary' %>
         <% end %>
       </div>

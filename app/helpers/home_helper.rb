@@ -14,8 +14,8 @@ module HomeHelper
   end
 
   # Get the time to refresh
-  def time_to_refresh
-    ((1.hour - (Time.now - @refresh.created_at)) / 60).to_i % 60 + 1
+  def time_since_refresh
+    distance_of_time_in_words_to_now @refresh.created_at
   end
 
   def format_decimal(num, places)
