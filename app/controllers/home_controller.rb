@@ -72,17 +72,16 @@ class HomeController < ApplicationController
     game = Game.find_by(id: id)
     if game.nil?
       # Game does not exist, create a new game and price
-      new_game(id, name, link, price, refresh)
+      new_game(id, name, link, price)
     else
       new_price(game, price, refresh)
     end
   end
 
   # Game does not exists, create a new game and price
-  def new_game(id, name, link, price, refresh)
+  def new_game(id, name, link, price)
     game = Game.create(id: id, name: name, link: link)
     game.prices.create(amount: price)
-    refresh << game
   end
 
   # Add a new price
@@ -90,7 +89,7 @@ class HomeController < ApplicationController
     return if game.prices.last.amount == price
 
     game.prices.create(amount: price)
-    refresh << game
+    refresh.games << game
   end
 
 end

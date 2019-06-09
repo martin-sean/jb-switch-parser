@@ -7,7 +7,7 @@
       </div>
 
       <div class="nav navbar-btn navbar-right">
-        <small class="refresh-message"><i>Refreshed <%= time_since_refresh %> ago</i></small>
+        <small class="refresh-message"><i><%='Refreshed ' + time_since_refresh + ' ago' unless @refresh.nil?%></i></small>
         <% if allow_refresh?%>
           <%= link_to 'Refresh', refresh_path, class:'btn btn-primary' %>
         <% else %>
