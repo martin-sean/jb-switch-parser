@@ -23,15 +23,16 @@ class HomeController < ApplicationController
       redirect_back(fallback_location: root_path)
       return
     end
-    parse_page
-    Refresh.create
+    refresh = Refresh.new
+    parse_page(refresh)
+    refresh.save
     redirect_to root_path
   end
 
   private
 
   # Parse the JB Hi fi website for Nintendo Switch games
-  def parse_page
+  def parse_page(refresh)
     base_url = 'https://www.jbhifi.com.au/games-consoles/games/nintendo-switch/'
     selector = '//div[@id="productsContainer"]//div[@data-productid]'
     doc = Nokogiri::HTML(open(base_url.to_s, 'User-Agent' => 'ruby'))
@@ -41,7 +42,7 @@ class HomeController < ApplicationController
       url = base_url + '?p=' + i.to_s
       doc = Nokogiri::HTML(open(url))
       games = doc.xpath(selector)
-      parse_games(games)
+      parse_games(games, refresh)
       sleep 0.5
     end
   end
@@ -53,41 +54,43 @@ class HomeController < ApplicationController
   end
 
   # Parse the games and save to model
-  def parse_games(games)
+  def parse_games(games, refresh)
     games.each do |game|
       doc = Nokogiri::HTML(game.to_s)
       id = doc.at_xpath('//div[@data-productid]')['data-productid']
       name = doc.at_xpath('//h4[@title]').text
       link = doc.at_xpath('//a[@class="link"]')['href']
       price = doc.at_xpath('//span[@class="amount regular"]').text.delete('^[0-9.]')
-      save_game(id, name, link, price.to_f)
+      save_game(id, name, link, price.to_f, refresh)
     end
   end
 
   # Save game + price or price to DB
-  def save_game(id, name, link, price)
+  def save_game(id, name, link, price, refresh)
     return if id.nil? || name.nil? || price.nil?
 
-    @game = Game.find_by(id: id)
-    if @game.nil?
+    game = Game.find_by(id: id)
+    if game.nil?
       # Game does not exist, create a new game and price
-      new_game(id, name, link, price)
+      new_game(id, name, link, price, refresh)
     else
-      new_price(@game, price)
+      new_price(game, price, refresh)
     end
   end
 
   # Game does not exists, create a new game and price
-  def new_game(id, name, link, price)
-    @new = Game.new(id: id, name: name, link: link)
-    @new.save
-    @new.prices.create(amount: price)
+  def new_game(id, name, link, price, refresh)
+    game = Game.create(id: id, name: name, link: link)
+    game.prices.create(amount: price)
+    refresh << game
   end
 
   # Add a new price
-  def new_price(game, price)
-    game.prices.last.amount
-    game.prices.create(amount: price) unless @game.prices.last.amount == price
+  def new_price(game, price, refresh)
+    return if game.prices.last.amount == price
+
+    game.prices.create(amount: price)
+    refresh << game
   end
 
 end
