@@ -10,23 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_09_091714) do
-
-  create_table "game_refreshes", force: :cascade do |t|
-    t.integer "game_id"
-    t.integer "refresh_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_game_refreshes_on_game_id"
-    t.index ["refresh_id", "game_id"], name: "index_game_refreshes_on_refresh_id_and_game_id", unique: true
-    t.index ["refresh_id"], name: "index_game_refreshes_on_refresh_id"
-  end
+ActiveRecord::Schema.define(version: 2019_06_09_100209) do
 
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
+  end
+
+  create_table "games_refreshes", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "refresh_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_games_refreshes_on_game_id"
+    t.index ["refresh_id", "game_id"], name: "index_games_refreshes_on_refresh_id_and_game_id", unique: true
+    t.index ["refresh_id"], name: "index_games_refreshes_on_refresh_id"
   end
 
   create_table "prices", force: :cascade do |t|
