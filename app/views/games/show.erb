@@ -21,4 +21,26 @@
                      xtitle: 'Time updated', ytitle: 'Price ($)', height: "500px" %>
     </div>
   </div>
+
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th data-sortable="true" scope="col">Price ($)</th>
+          <th data-sortable="true" scope="col">Time updated</th>
+          <th data-sortable="true" scope="col">Full Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @game.prices.each do |price| %>
+          <tr>
+            <td><%= price.amount %></td>
+            <td><%= distance_of_time_in_words_to_now price.created_at %> ago</td>
+            <td><%= price.created_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
