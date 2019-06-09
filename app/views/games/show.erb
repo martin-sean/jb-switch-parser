@@ -1,0 +1,24 @@
+<% provide(:title, @game.name) %>
+
+<div class="container">
+
+  <% current = @game.prices.last %>
+  <% max = @game.prices.maximum('amount') %>
+  <% min = @game.prices.minimum('amount') %>
+  <% discount = percentage(current.amount, max) %>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <h2><%= link_to @game.name, jb_link(@game.link) %></h2>
+      <h4>Current: $<%= format_decimal(current.amount, 2) %></h4>
+      <h4>Discount: <%= discount.to_s %>%</h4>
+      <h5>High: $<%= format_decimal(max, 2) %></h5>
+      <h5>Low: $<%= format_decimal(min, 2) %></h5>
+    </div>
+
+    <div class="col-sm-8">
+      <%= line_chart @game.prices.pluck(:created_at, :amount), title: 'Price History',
+                     xtitle: 'Time updated', ytitle: 'Price ($)', height: "500px" %>
+    </div>
+  </div>
+</div>

@@ -12,9 +12,12 @@
 //
 //= require rails-ujs
 //= require jquery
+//= require jquery_ujs
 //= require bootstrap-sprockets
 //= require bootstrap-table/bootstrap-table
 //= require activestorage
+//= require chartkick
+//= require Chart.bundle
 //= # require turbolinks
 //= require_tree .
-
+//= require index
