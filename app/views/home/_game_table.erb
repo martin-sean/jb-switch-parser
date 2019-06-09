@@ -19,7 +19,7 @@
         <% min = game.prices.minimum('amount') %>
         <% discount = percentage(current.amount, max) %>
         <tr data-link="<%= game_path(game.id) %>">
-          <td><%= link_to game.name, jb_link(game.link) %></td>
+          <td><%= link_to game.name, game_path(game.id) %></td>
           <td><%= format_decimal(current.amount, 2) %></td>
           <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
           <td><%= format_decimal(max, 2) %></td>
