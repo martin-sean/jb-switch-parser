@@ -35,12 +35,12 @@ class HomeController < ApplicationController
   def parse_page(refresh)
     base_url = 'https://www.jbhifi.com.au/games-consoles/games/nintendo-switch/'
     selector = '//div[@id="productsContainer"]//div[@data-productid]'
-    doc = Nokogiri::HTML(open(base_url.to_s, 'User-Agent' => 'ruby'))
+    doc = Nokogiri::HTML(open(base_url, 'User-Agent' => "Ruby/#{RUBY_VERSION}"))
     last = last_page(doc)
     # For each page
     (1..last).each do |i|
       url = base_url + '?p=' + i.to_s
-      doc = Nokogiri::HTML(open(url))
+      doc = Nokogiri::HTML(open(url, 'User-Agent' => "Ruby/#{RUBY_VERSION}"))
       games = doc.xpath(selector)
       parse_games(games, refresh)
       sleep 0.5
