@@ -20,12 +20,12 @@
           </tr>
           <% unless difference.to_i == 0 %>
             <tr>
-              <td><strong>Difference <%= '+' if difference.to_i > 0 %></strong></td>
-              <td class="<%= color %>"><%= format_decimal(difference, 2) %></td>
+              <td><strong>Difference</strong></td>
+              <td class="<%= color %>"><%= '+' if difference.to_i > 0 %><%= format_decimal(difference, 2) %></td>
             </tr>
             <tr>
-              <td><strong>Change <%= '+' if change.to_i > 0 %></strong></td>
-              <td class="<%= color %>"><%= change.to_s %>%</td>
+              <td><strong>Change</strong></td>
+              <td class="<%= color %>"><%= '+' if change.to_i > 0 %><%= change.to_s %>%</td>
             </tr>
           <% end %>
           <tr>
@@ -58,11 +58,11 @@
       </thead>
 
       <tbody>
-        <% @game.prices.each do |price| %>
+        <% @game.prices.reverse.each do |price| %>
           <tr>
             <td><%= format_decimal(price.amount, 2) %></td>
             <td><%= distance_of_time_in_words_to_now price.created_at %> ago</td>
-            <td><%= price.created_at %></td>
+            <td><%= price.created_at.in_time_zone.strftime('%d/%m/%Y - %l:%M %P')  %></td>
           </tr>
         <% end %>
       </tbody>
