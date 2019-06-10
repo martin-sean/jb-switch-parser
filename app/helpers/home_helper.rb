@@ -1,7 +1,7 @@
 module HomeHelper
 
   def percentage(val1, val2)
-    format_decimal(100 - (val1 / val2) * 100, 0)
+    format_decimal(((val1 / val2) * 100) - 100, 0)
   end
 
   def jb_link(link)

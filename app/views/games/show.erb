@@ -1,19 +1,44 @@
 <% provide(:title, @game.name) %>
 
 <div class="container">
-
   <% current = @game.prices.last %>
-  <% max = @game.prices.maximum('amount') %>
+  <% previous = @game.prices[-2] %>
+  <% difference = previous.present? ? current.amount - previous.amount : 0 %>
+  <% change = previous.present? ? percentage(current.amount, previous.amount) : 0 %>
+  <% color = difference.to_i < 0 ? 'text-success' : difference.to_i > 0 ? 'text-danger' : '' %>
   <% min = @game.prices.minimum('amount') %>
-  <% discount = percentage(current.amount, max) %>
+  <% max = @game.prices.maximum('amount') %>
 
   <div class="row">
     <div class="col-sm-4">
-      <h2><%= link_to @game.name, jb_link(@game.link) %></h2>
-      <h4>Current: $<%= format_decimal(current.amount, 2) %></h4>
-      <h4>Discount: <%= discount.to_s %>%</h4>
-      <h5>High: $<%= format_decimal(max, 2) %></h5>
-      <h5>Low: $<%= format_decimal(min, 2) %></h5>
+      <h3><%= link_to @game.name, jb_link(@game.link) %></h3>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td><strong>Current</strong></td>
+            <td>$<%= format_decimal(current.amount, 2) %></td>
+          </tr>
+          <% unless difference.to_i == 0 %>
+            <tr>
+              <td><strong>Difference <%= '+' if difference.to_i > 0 %></strong></td>
+              <td class="<%= color %>"><%= format_decimal(difference, 2) %></td>
+            </tr>
+            <tr>
+              <td><strong>Change <%= '+' if change.to_i > 0 %></strong></td>
+              <td class="<%= color %>"><%= change.to_s %>%</td>
+            </tr>
+          <% end %>
+          <tr>
+            <td><strong>Low </strong></td>
+            <td>$<%= format_decimal(min, 2) %></td>
+          </tr>
+          <tr>
+            <td><strong>High </strong></td>
+            <td>$<%= format_decimal(max, 2) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <small><i>Created on <%= @game.created_at.strftime('%d / %m / %Y') %></i></small>
     </div>
 
     <div class="col-sm-8">
@@ -35,7 +60,7 @@
       <tbody>
         <% @game.prices.each do |price| %>
           <tr>
-            <td><%= price.amount %></td>
+            <td><%= format_decimal(price.amount, 2) %></td>
             <td><%= distance_of_time_in_words_to_now price.created_at %> ago</td>
             <td><%= price.created_at %></td>
           </tr>

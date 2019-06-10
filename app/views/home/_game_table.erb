@@ -4,28 +4,26 @@
       <tr>
         <th data-sortable="true" scope="col">Name</th>
         <th data-sortable="true" scope="col">Current Price ($)</th>
-        <th data-sortable="true" scope="col">Discount</th>
-        <th data-sortable="true" scope="col">Highest Price ($)</th>
-        <th data-sortable="true" scope="col">Lowest Price ($)</th>
+        <th data-sortable="true" scope="col">Difference ($) </th>
+        <th data-sortable="true" scope="col">Price Change</th>
         <th data-sortable="true" scope="col">Last Price Change</th>
-        <th data-sortable="true" scope="col"># of Changes</th>
       </tr>
     </thead>
 
     <tbody>
       <% games.each do |game| %>
         <% current = game.prices.last %>
-        <% max = game.prices.maximum('amount') %>
-        <% min = game.prices.minimum('amount') %>
-        <% discount = percentage(current.amount, max) %>
-        <tr data-link="<%= game_path(game.id) %>">
+        <% previous = game.prices[-2] %>
+        <% difference = previous.present? ? current.amount - previous.amount : 0 %>
+        <% change = previous.present? ? percentage(current.amount, previous.amount) : 0 %>
+        <% color = difference.to_i < 0 ? 'success' : difference.to_i > 0 ? 'danger' : '' %>
+
+        <tr class="<%= color %>" data-link="<%= game_path(game.id) %>">
           <td><%= link_to game.name, game_path(game.id) %></td>
           <td><%= format_decimal(current.amount, 2) %></td>
-          <td><%= discount.to_s + '%' unless discount.to_i == 0 %></td>
-          <td><%= format_decimal(max, 2) %></td>
-          <td><%= format_decimal(min, 2) %></td>
+          <td><%= '+' if difference.to_i > 0 %><%= format_decimal(difference, 2) unless difference.to_i == 0 %></td>
+          <td><%= '+' if change.to_i > 0 %><%= change.to_s + '%' unless change.to_i == 0 %></td>
           <td><i><%= time_ago_in_words current.created_at %> ago</i></td>
-          <td><%= game.prices.size %></td>
         </tr>
       <% end %>
     </tbody>
