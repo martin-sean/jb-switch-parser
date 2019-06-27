@@ -39,11 +39,11 @@ class HomeController < ApplicationController
     last = last_page(doc)
     # For each page
     (1..last).each do |i|
+      sleep 0.5
       url = base_url + '?p=' + i.to_s
-      doc = Nokogiri::HTML(open(url, 'User-Agent' => "Ruby/#{RUBY_VERSION}"))
+      doc = Nokogiri::HTML(open(url, 'User-Agent' => "Ruby/#{RUBY_VERSION}")) unless i == 1
       games = doc.xpath(selector)
       parse_games(games, refresh)
-      sleep 0.5
     end
   end
 
