@@ -4,7 +4,7 @@ module ApplicationHelper
 
   # Format Page Title
   def full_title(page_title)
-    title = 'JB Switch Parser'
+    title = 'Oz Switch Parser'
     if page_title.empty?
       title
     else
